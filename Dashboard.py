@@ -1,21 +1,27 @@
 import os
 import subprocess
 
-def mostrar_codigo(ruta_script):
-    # Asegúrate de que la ruta al script es absoluta
-    ruta_script_absoluta = os.path.abspath(ruta_script)
+def mostrar_codigo(ruta_script: str) -> str | None:
+    """
+    Muestra el código fuente de un script Python.
+    Responsabilidad única: lectura y visualización del archivo.
+    """
+    ruta_absoluta = os.path.abspath(ruta_script)
+
     try:
-        with open(ruta_script_absoluta, 'r') as archivo:
+        with open(ruta_absoluta, "r", encoding="utf-8") as archivo:
             codigo = archivo.read()
             print(f"\n--- Código de {ruta_script} ---\n")
             print(codigo)
             return codigo
+
     except FileNotFoundError:
-        print("El archivo no se encontró.")
-        return None
-    except Exception as e:
-        print(f"Ocurrió un error al leer el archivo: {e}")
-        return None
+        print("❌ El archivo no se encontró.")
+    except Exception as error:
+        print(f"❌ Error al leer el archivo: {error}")
+
+    return None
+
 
 def ejecutar_codigo(ruta_script):
     try:
