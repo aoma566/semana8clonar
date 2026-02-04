@@ -1,41 +1,30 @@
 import os
 import subprocess
 
-def mostrar_codigo(ruta_script: str) -> str | None:
-    """
-    Muestra el código fuente de un script Python.
-    Responsabilidad única: lectura y visualización del archivo.
-    """
-    ruta_absoluta = os.path.abspath(ruta_script)
-
+def mostrar_codigo(ruta_script):
+    # Asegúrate de que la ruta al script es absoluta
+    ruta_script_absoluta = os.path.abspath(ruta_script)
     try:
-        with open(ruta_absoluta, "r", encoding="utf-8") as archivo:
+        with open(ruta_script_absoluta, 'r') as archivo:
             codigo = archivo.read()
             print(f"\n--- Código de {ruta_script} ---\n")
             print(codigo)
             return codigo
-
     except FileNotFoundError:
-        print("❌ El archivo no se encontró.")
-    except Exception as error:
-        print(f"❌ Error al leer el archivo: {error}")
+        print("El archivo no se encontró.")
+        return None
+    except Exception as e:
+        print(f"Ocurrió un error al leer el archivo: {e}")
+        return None
 
-    return None
-
-
-def ejecutar_codigo(ruta_script: str) -> None:
-    """
-    Ejecuta un script Python en una nueva consola.
-    """
+def ejecutar_codigo(ruta_script):
     try:
-        if os.name == "nt":  # Windows
-            subprocess.Popen(["cmd", "/k", "python", ruta_script])
-        else:  # Linux / Mac
-            subprocess.Popen(["xterm", "-hold", "-e", "python3", ruta_script])
-
-    except Exception as error:
-        print(f"❌ Error al ejecutar el script: {error}")
-
+        if os.name == 'nt':  # Windows
+            subprocess.Popen(['cmd', '/k', 'python', ruta_script])
+        else:  # Unix-based systems
+            subprocess.Popen(['xterm', '-hold', '-e', 'python3', ruta_script])
+    except Exception as e:
+        print(f"Ocurrió un error al ejecutar el código: {e}")
 
 def mostrar_menu():
     # Define la ruta base donde se encuentra el dashboard.py
@@ -129,6 +118,10 @@ def mostrar_scripts(ruta_sub_carpeta):
                 print("Opción no válida. Por favor, intenta de nuevo.")
 
 # Ejecutar el dashboard
-if __name__ == "__main__":
+def main():
     mostrar_menu()
+
+
+if __name__ == "__main__":
+    main()
 
