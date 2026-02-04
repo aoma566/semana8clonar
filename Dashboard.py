@@ -23,14 +23,19 @@ def mostrar_codigo(ruta_script: str) -> str | None:
     return None
 
 
-def ejecutar_codigo(ruta_script):
+def ejecutar_codigo(ruta_script: str) -> None:
+    """
+    Ejecuta un script Python en una nueva consola.
+    """
     try:
-        if os.name == 'nt':  # Windows
-            subprocess.Popen(['cmd', '/k', 'python', ruta_script])
-        else:  # Unix-based systems
-            subprocess.Popen(['xterm', '-hold', '-e', 'python3', ruta_script])
-    except Exception as e:
-        print(f"Ocurrió un error al ejecutar el código: {e}")
+        if os.name == "nt":  # Windows
+            subprocess.Popen(["cmd", "/k", "python", ruta_script])
+        else:  # Linux / Mac
+            subprocess.Popen(["xterm", "-hold", "-e", "python3", ruta_script])
+
+    except Exception as error:
+        print(f"❌ Error al ejecutar el script: {error}")
+
 
 def mostrar_menu():
     # Define la ruta base donde se encuentra el dashboard.py
